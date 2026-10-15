@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nuboflo Labs</title>
+<meta name="description" content="Nuboflo Labs builds AI tools for nonprofits: grant writing, donor and volunteer outreach, 24/7 chatbots, and impact reports. Join early access.">
+<link rel="canonical" href="https://nuboflo.si/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nuboflo Labs: AI for the people who help people">
+<meta property="og:description" content="AI tools that take grant drafts, donor follow-ups, inbox questions and board reports off your team's plate.">
+<meta property="og:url" content="https://nuboflo.si/">
+<meta name="theme-color" content="#EEF1F6">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FFC7D9'/%3E%3Cstop offset='.5' stop-color='%23C8F0E2'/%3E%3Cstop offset='1' stop-color='%23CFD6FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='28' fill='url(%23g)'/%3E%3Cellipse cx='24' cy='20' rx='10' ry='6' fill='%23fff' opacity='.85'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..700,50..100&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: left-aligned editorial column; hero splits headline | live demo card floating among glass orbs; everything below is quieter glass slabs on pearl. */
+:root{
+  --pearl:#EEF1F6;      /* page ground, cool pearl */
+  --ink:#141A2E;        /* text, deep ink navy */
+  --ink-soft:#4B5470;   /* secondary text */
+  --pine:#0B6E63;       /* accent: links, focus, success */
+  --line:rgba(20,26,46,.10);
+  --glass:rgba(255,255,255,.52);
+  --glass-hi:rgba(255,255,255,.85);
+  --iri-pink:#FFC7D9; --iri-peach:#FFE1B8; --iri-mint:#C8F0E2; --iri-peri:#CFD6FF; --iri-lilac:#E7CCFF;
+  --display:"Fraunces", "Iowan Old Style", Georgia, serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r-lg:32px; --r-md:20px; --r-sm:12px;
+  --shadow:0 30px 60px -30px rgba(28,38,84,.35), 0 8px 20px -12px rgba(28,38,84,.18);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--pearl);color:var(--ink);font:400 17px/1.6 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%}
+:focus-visible{outline:2px solid var(--pine);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1180px,100%);margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+h1,h2,h3{font-family:var(--display);font-weight:500;letter-spacing:-.02em;line-height:1.05;margin:0;text-wrap:balance;font-variation-settings:"SOFT" 100}
+h2{font-size:clamp(34px,4.6vw,56px)}
+h3{font-size:24px;line-height:1.2}
+p{margin:0}
+.lede{color:var(--ink-soft);font-size:clamp(18px,1.6vw,21px);max-width:34em}
+
+/* ---------- Ambient iridescent field ---------- */
+.field{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.75;will-change:transform}
+.b1{width:52vmax;height:52vmax;left:-14vmax;top:-18vmax;background:radial-gradient(circle at 40% 40%,var(--iri-pink),transparent 65%)}
+.b2{width:46vmax;height:46vmax;right:-12vmax;top:4vmax;background:radial-gradient(circle at 50% 50%,var(--iri-peri),transparent 65%)}
+.b3{width:40vmax;height:40vmax;left:20vw;top:46vh;background:radial-gradient(circle at 50% 50%,var(--iri-mint),transparent 65%)}
+.b4{width:30vmax;height:30vmax;right:6vw;bottom:-10vmax;background:radial-gradient(circle at 50% 50%,var(--iri-peach),transparent 65%)}
+.grain{position:absolute;inset:0;opacity:.06;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ---------- Glass material ---------- */
+.glass{position:relative;background:linear-gradient(140deg,rgba(255,255,255,.78),rgba(255,255,255,.34));
+  -webkit-backdrop-filter:blur(24px) saturate(170%);backdrop-filter:blur(24px) saturate(170%);
+  border:1px solid rgba(255,255,255,.75);box-shadow:inset 0 1px 0 var(--glass-hi),inset 0 -1px 0 rgba(255,255,255,.25),var(--shadow)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(115deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 32%,rgba(255,255,255,0) 70%,rgba(255,255,255,.25) 100%)}
+
+/* ---------- Nav ---------- */
+.nav{position:sticky;top:max(12px,env(safe-area-inset-top,0px));z-index:50;margin-top:12px}
+.nav-in{display:flex;align-items:center;gap:20px;padding:10px 10px 10px 20px;border-radius:999px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:19px;letter-spacing:-.01em}
+.brand svg{width:30px;height:30px;flex:none}
+.brand span{color:var(--ink-soft);font-weight:500}
+.nav-links{display:flex;gap:4px;margin-left:auto}
+.nav-links a{text-decoration:none;color:var(--ink-soft);font-weight:500;font-size:15px;padding:8px 14px;border-radius:999px;transition:background .2s,color .2s}
+.nav-links a:hover{background:rgba(255,255,255,.6);color:var(--ink)}
+@media (max-width:820px){.nav-links{display:none}.nav-in .btn{margin-left:auto}}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:600 15px/1 var(--body);text-decoration:none;padding:15px 22px;border-radius:999px;transition:transform .2s,box-shadow .2s,background .2s}
+.btn-ink{background:var(--ink);color:#fff;box-shadow:0 10px 24px -10px rgba(20,26,46,.6),inset 0 1px 0 rgba(255,255,255,.18)}
+.btn-ink:hover{transform:translateY(-1px);box-shadow:0 16px 30px -12px rgba(20,26,46,.65),inset 0 1px 0 rgba(255,255,255,.18)}
+.btn-glass{background:rgba(255,255,255,.55);color:var(--ink);border:1px solid rgba(255,255,255,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.btn-glass:hover{background:rgba(255,255,255,.8)}
+.btn-sm{padding:11px 18px;font-size:14px}
+
+/* ---------- Hero ---------- */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(32px,5vw,72px);align-items:center;padding-block:clamp(56px,9vw,120px) clamp(48px,7vw,96px)}
+.hero>*{min-width:0}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500;color:var(--ink-soft);padding:7px 14px 7px 8px;border-radius:999px;margin-bottom:28px}
+.kicker i{width:22px;height:22px;border-radius:50%;background:conic-gradient(from 200deg,var(--iri-pink),var(--iri-peach),var(--iri-mint),var(--iri-peri),var(--iri-lilac),var(--iri-pink));box-shadow:inset 0 0 0 1px rgba(255,255,255,.8)}
+.hero h1{font-size:clamp(48px,7.2vw,96px);line-height:.98;font-weight:450;letter-spacing:-.035em;margin-bottom:26px}
+.hero .lede{margin-bottom:34px}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.fine{margin-top:22px;font-size:14px;color:var(--ink-soft)}
+
+/* Glass orbs around the demo */
+.stage{position:relative;min-height:540px;display:grid;place-items:center}
+.orb{position:absolute;border-radius:50%;will-change:transform;
+  background:radial-gradient(circle at 30% 26%,rgba(255,255,255,.95) 0 6%,rgba(255,255,255,0) 22%),
+             conic-gradient(from 210deg,var(--iri-pink),var(--iri-peach),var(--iri-mint),var(--iri-peri),var(--iri-lilac),var(--iri-pink));
+  box-shadow:inset -18px -24px 40px rgba(120,110,200,.28),inset 14px 16px 30px rgba(255,255,255,.7),0 40px 70px -30px rgba(80,70,160,.45)}
+.orb::after{content:"";position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle at 70% 75%,rgba(255,255,255,.55),transparent 40%)}
+.o1{width:260px;height:260px;right:-30px;top:-10px}
+.o2{width:150px;height:150px;left:-24px;bottom:30px}
+.o3{width:70px;height:70px;right:70px;bottom:-6px}
+
+/* ---------- Demo card ---------- */
+.demo{width:min(500px,100%);border-radius:var(--r-lg);padding:14px;z-index:2}
+.demo-top{display:flex;align-items:center;gap:8px;padding:6px 8px 14px}
+.dots{display:flex;gap:6px}
+.dots b{width:10px;height:10px;border-radius:50%;background:rgba(20,26,46,.14)}
+.demo-title{font-size:13px;color:var(--ink-soft);margin-left:auto;margin-right:auto;font-weight:500}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--pine)}
+.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--pine);box-shadow:0 0 0 0 rgba(11,110,99,.5);animation:ping 2s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 8px rgba(11,110,99,0)}100%{box-shadow:0 0 0 0 rgba(11,110,99,0)}}
+.tabs{display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(20,26,46,.05);margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1 0 auto;border:0;background:transparent;color:var(--ink-soft);font:600 13px/1 var(--body);padding:10px 12px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:background .25s,color .25s,box-shadow .25s}
+.tab[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 4px 12px -6px rgba(20,26,46,.35)}
+.chat{background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.9);border-radius:var(--r-md);padding:18px;min-height:330px;display:flex;flex-direction:column;gap:14px}
+.msg{max-width:92%;font-size:15px;line-height:1.55}
+.msg.you{align-self:flex-end;background:var(--ink);color:#fff;padding:11px 15px;border-radius:18px 18px 4px 18px}
+.msg.ai{align-self:flex-start;display:flex;gap:10px}
+.msg.ai .av{flex:none;width:28px;height:28px;border-radius:50%;background:conic-gradient(from 200deg,var(--iri-pink),var(--iri-mint),var(--iri-peri),var(--iri-pink));box-shadow:inset 0 0 0 1px #fff}
+.msg.ai .txt{white-space:pre-wrap;color:var(--ink)}
+.caret{display:inline-block;width:2px;height:1.05em;background:var(--ink);vertical-align:-2px;margin-left:1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.thinking{display:inline-flex;gap:4px;padding-top:9px}
+.thinking b{width:6px;height:6px;border-radius:50%;background:var(--ink-soft);opacity:.4;animation:bob 1.1s infinite}
+.thinking b:nth-child(2){animation-delay:.15s}.thinking b:nth-child(3){animation-delay:.3s}
+@keyframes bob{40%{opacity:1;transform:translateY(-3px)}}
+.demo-foot{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--ink-soft);padding:12px 8px 4px}
+
+@media (max-width:960px){.hero{grid-template-columns:1fr}.stage{min-height:auto;padding-block:30px}.o1{width:180px;height:180px;right:-20px;top:-20px}.o2{width:110px;height:110px}}
+
+/* ---------- Built for strip ---------- */
+.builtfor{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding-block:8px 24px;color:var(--ink-soft);font-size:15px}
+.builtfor strong{color:var(--ink);font-weight:600;margin-right:6px}
+.chip{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.85)}
+
+/* ---------- Sections ---------- */
+section{scroll-margin-top:100px}
+.sec{padding-block:clamp(64px,9vw,120px)}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:24px 60px;align-items:end;margin-bottom:48px}
+.sec-head>*{min-width:0}
+@media (max-width:820px){.sec-head{grid-template-columns:1fr}}
+
+/* Solutions: one slab, four rows */
+.slab{border-radius:var(--r-lg);padding:clamp(8px,1.5vw,16px)}
+.sol{display:grid;grid-template-columns:64px 1.1fr 1fr 1fr;gap:20px 32px;padding:28px clamp(16px,2.4vw,28px);border-radius:var(--r-md);transition:background .3s}
+.sol+.sol{border-top:1px solid var(--line)}
+.sol:hover{background:rgba(255,255,255,.55)}
+.sol>*{min-width:0}
+.ico{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:rgba(255,255,255,.75);border:1px solid #fff;box-shadow:0 8px 18px -10px rgba(28,38,84,.4)}
+.ico svg{width:26px;height:26px;stroke:var(--ink);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.sol h3{margin-bottom:8px}
+.sol p{color:var(--ink-soft);font-size:16px}
+.sol dt{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.sol dd{margin:0;color:var(--ink-soft);font-size:15.5px}
+@media (max-width:900px){.sol{grid-template-columns:56px 1fr}.sol dl{grid-column:2}}
+
+/* How it works: real sequence */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative;counter-reset:s}
+.steps::before{content:"";position:absolute;left:8%;right:8%;top:34px;height:2px;background:linear-gradient(90deg,var(--iri-pink),var(--iri-mint),var(--iri-peri));border-radius:2px;opacity:.9}
+.step{position:relative;padding-top:88px}
+.step>*{min-width:0}
+.step::before{counter-increment:s;content:counter(s);position:absolute;top:0;left:0;width:70px;height:70px;border-radius:50%;display:grid;place-items:center;font:500 28px/1 var(--display);
+  background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,255,255,.55));border:1px solid #fff;box-shadow:var(--shadow)}
+.step h3{margin-bottom:10px}
+.step p{color:var(--ink-soft);max-width:30ch}
+.step small{display:block;margin-top:14px;font-size:14px;color:var(--pine);font-weight:600}
+@media (max-width:820px){.steps{grid-template-columns:1fr;gap:36px}.steps::before{left:34px;right:auto;top:20px;bottom:20px;width:2px;height:auto}.step{padding-top:0;padding-left:96px;min-height:70px}}
+
+/* Principles */
+.principles{display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px}
+.pr{padding:26px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:28px 1fr;gap:16px}
+.pr svg{width:24px;height:24px;stroke:var(--pine);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:3px}
+.pr h3{font-size:21px;margin-bottom:6px}
+.pr p{color:var(--ink-soft);font-size:16px}
+@media (max-width:760px){.principles{grid-template-columns:1fr}}
+
+/* Founding partners + waitlist */
+.join{border-radius:40px;padding:clamp(28px,5vw,64px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,64px);overflow:hidden;isolation:isolate}
+.join>*{min-width:0}
+.join .orb{z-index:-1}
+.join .o4{width:340px;height:340px;right:-120px;top:-140px;opacity:.9}
+.join .o5{width:120px;height:120px;left:42%;bottom:-50px;opacity:.85}
+.join h2{margin-bottom:18px}
+.join ul{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px}
+.join li{display:flex;gap:12px;align-items:flex-start;color:var(--ink-soft)}
+.join li svg{flex:none;width:22px;height:22px;stroke:var(--pine);fill:none;stroke-width:2;margin-top:2px}
+@media (max-width:860px){.join{grid-template-columns:1fr}}
+
+/* Forms */
+form{display:grid;gap:14px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:520px){.field-row{grid-template-columns:1fr}}
+label{display:grid;gap:7px;font-size:14px;font-weight:600;color:var(--ink)}
+input,select,textarea{font:400 16px/1.4 var(--body);color:var(--ink);width:100%;padding:14px 16px;border-radius:14px;border:1px solid rgba(20,26,46,.12);background:rgba(255,255,255,.72);transition:border-color .2s,box-shadow .2s,background .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pine);box-shadow:0 0 0 4px rgba(11,110,99,.14);background:#fff}
+textarea{min-height:130px;resize:vertical}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-card{border-radius:var(--r-lg);padding:clamp(20px,3vw,32px)}
+.status{font-size:15px;min-height:1.4em;font-weight:500}
+.status.ok{color:var(--pine)}
+.status.err{color:#B4232F}
+form .btn{justify-self:start}
+
+/* Contact */
+.contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,64px);align-items:start}
+.contact>*{min-width:0}
+.ways{display:grid;gap:14px;margin-top:30px}
+.way{display:flex;gap:14px;align-items:center;padding:16px 18px;border-radius:var(--r-md);text-decoration:none}
+.way svg{flex:none;width:40px;height:40px;padding:9px;border-radius:12px;background:#fff;stroke:var(--ink);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.way strong{display:block;font-size:15px}
+.way span{font-size:14.5px;color:var(--ink-soft);word-break:break-all}
+@media (max-width:860px){.contact{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{max-width:820px}
+details{border-top:1px solid var(--line)}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 4px;font:500 21px/1.3 var(--display)}
+summary::-webkit-details-marker{display:none}
+summary .pm{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.7);border:1px solid #fff;transition:transform .3s}
+summary .pm::before{content:"+";font:400 22px/1 var(--body)}
+details[open] summary .pm{transform:rotate(45deg)}
+details p{padding:0 4px 26px;color:var(--ink-soft);max-width:64ch}
+
+/* Footer */
+footer{padding-block:48px 64px;border-top:1px solid var(--line);margin-top:40px}
+.foot{display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;justify-content:space-between;color:var(--ink-soft);font-size:14.5px}
+.foot a{text-decoration:none}
+.foot a:hover{color:var(--ink)}
+
+/* WhatsApp floating button */
+.wa{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:10px;padding:12px 18px 12px 12px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px;color:var(--ink)}
+.wa .wa-ico{width:36px;height:36px;border-radius:50%;background:#25D366;display:grid;place-items:center}
+.wa .wa-ico svg{width:20px;height:20px;fill:#fff}
+@media (max-width:520px){.wa .wa-label{display:none}.wa{padding:10px}}
+
+/* One orchestrated load moment for the hero */
+@media (prefers-reduced-motion:no-preference){
+  .hero h1,.hero .lede,.hero .cta-row,.demo{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+  .hero .lede{animation-delay:.08s}.hero .cta-row{animation-delay:.16s}.demo{animation-delay:.22s}
+  @keyframes rise{from{transform:translateY(14px)}to{transform:none}}
+  .o1{animation:float 9s ease-in-out infinite}.o2{animation:float 11s ease-in-out infinite reverse}.o3{animation:float 7s ease-in-out infinite}
+  @keyframes float{50%{translate:0 -14px}}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="field" aria-hidden="true">
+  <div class="blob b1" data-depth="18"></div>
+  <div class="blob b2" data-depth="-14"></div>
+  <div class="blob b3" data-depth="10"></div>
+  <div class="blob b4" data-depth="-8"></div>
+  <div class="grain"></div>
+</div>
+
+<div class="wrap">
+  <header class="nav">
+    <nav class="nav-in glass" aria-label="Main">
+      <a class="brand" href="#top" aria-label="Nuboflo Labs home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC7D9"/><stop offset=".45" stop-color="#FFE1B8"/><stop offset=".7" stop-color="#C8F0E2"/><stop offset="1" stop-color="#CFD6FF"/></linearGradient></defs><circle cx="32" cy="32" r="29" fill="url(#lg)"/><circle cx="32" cy="32" r="29" fill="none" stroke="#fff" stroke-width="2" opacity=".9"/><ellipse cx="23" cy="20" rx="10" ry="6" fill="#fff" opacity=".9"/><path d="M20 42c4-10 20-10 24 0" fill="none" stroke="#141A2E" stroke-width="3.2" stroke-linecap="round"/></svg>
+        nuboflo <span>labs</span>
+      </a>
+      <div class="nav-links">
+        <a href="#solutions">Solutions</a>
+        <a href="#how">How it works</a>
+        <a href="#principles">Our approach</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a class="btn btn-ink btn-sm" href="#join">Join early access</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="kicker glass"><i></i>Nuboflo Labs, AI for nonprofits</div>
+        <h1>AI for the people who help people.</h1>
+        <p class="lede">We build AI tools that draft your grants, thank your donors, answer questions around the clock and turn program data into board-ready reports, so your team spends its hours on the mission.</p>
+        <div class="cta-row">
+          <a class="btn btn-ink" href="#join">Join early access</a>
+          <a class="btn btn-glass" href="#solutions">See what it does</a>
+        </div>
+        <p class="fine">Now accepting our first founding partner nonprofits.</p>
+      </div>
+
+      <div class="stage" id="stage">
+        <div class="orb o1" data-depth="-22" aria-hidden="true"></div>
+        <div class="orb o2" data-depth="16" aria-hidden="true"></div>
+        <div class="orb o3" data-depth="28" aria-hidden="true"></div>
+
+        <div class="demo glass" aria-label="Live example of Nuboflo Labs AI assistants">
+          <div class="demo-top">
+            <div class="dots" aria-hidden="true"><b></b><b></b><b></b></div>
+            <span class="demo-title">Nuboflo assistant</span>
+            <span class="live">Live demo</span>
+          </div>
+          <div class="tabs" role="tablist" aria-label="Choose an assistant">
+            <button class="tab" role="tab" aria-selected="true" data-i="0">Grant writer</button>
+            <button class="tab" role="tab" aria-selected="false" data-i="1">Donor thanks</button>
+            <button class="tab" role="tab" aria-selected="false" data-i="2">Help chatbot</button>
+            <button class="tab" role="tab" aria-selected="false" data-i="3">Board report</button>
+          </div>
+          <div class="chat" id="chat" aria-live="polite"></div>
+          <div class="demo-foot"><span id="demo-org">Sample organization</span><span>You review before anything is sent</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="builtfor">
+      <strong>Built for</strong>
+      <span class="chip">Food banks</span><span class="chip">Shelters</span><span class="chip">Parishes and faith groups</span><span class="chip">Youth programs</span><span class="chip">Arts and culture</span><span class="chip">International NGOs</span>
+    </div>
+
+    <!-- SOLUTIONS -->
+    <section class="sec" id="solutions">
+      <div class="sec-head">
+        <h2>Four jobs your team shouldn't be doing at 11pm.</h2>
+        <p class="lede">Each assistant is set up around your organization's voice, data and rules. Pick one to start, add the others when you're ready.</p>
+      </div>
+
+      <div class="slab glass">
+        <article class="sol">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></div>
+          <div><h3>Grant writing assistant</h3><p>Drafts needs statements, budgets narratives and funder reports from your past applications and program data.</p></div>
+          <dl><dt>Takes off your plate</dt><dd>Blank-page first drafts, reformatting for each funder, chasing word counts.</dd></dl>
+          <dl><dt>You stay in charge of</dt><dd>Final edits, numbers, and what gets submitted.</dd></dl>
+        </article>
+        <article class="sol">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.4-9.2-9A5 5 0 0 1 12 6.6 5 5 0 0 1 21.2 12C19 16.6 12 21 12 21z"/></svg></div>
+          <div><h3>Donor and volunteer AI</h3><p>Writes personal thank-yous, nudges lapsed donors, and matches volunteers to shifts that fit their skills.</p></div>
+          <dl><dt>Takes off your plate</dt><dd>Copy-paste thank-you letters, spreadsheet follow-ups, scheduling back-and-forth.</dd></dl>
+          <dl><dt>You stay in charge of</dt><dd>Who gets contacted, and the tone of every message.</dd></dl>
+        </article>
+        <article class="sol">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/></svg></div>
+          <div><h3>24/7 help chatbot</h3><p>Answers questions from clients, donors and volunteers on your website, in their language, any hour.</p></div>
+          <dl><dt>Takes off your plate</dt><dd>The same twenty questions about hours, eligibility, receipts and drop-offs.</dd></dl>
+          <dl><dt>You stay in charge of</dt><dd>What it knows. Anything sensitive goes straight to a person.</dd></dl>
+        </article>
+        <article class="sol">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+          <div><h3>Impact reporting dashboards</h3><p>Turns intake sheets and program records into clear dashboards and plain-language summaries for boards and funders.</p></div>
+          <dl><dt>Takes off your plate</dt><dd>Quarter-end spreadsheet marathons and rebuilding the same charts.</dd></dl>
+          <dl><dt>You stay in charge of</dt><dd>Which outcomes matter and how they're reported.</dd></dl>
+        </article>
+      </div>
+    </section>
+
+    <!-- HOW -->
+    <section class="sec" id="how">
+      <div class="sec-head">
+        <h2>From first call to working assistant.</h2>
+        <p class="lede">No technical staff needed. We do the setup, train your team in plain language, and stay on call afterward.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>Listen</h3><p>A free discovery call to find where your team loses the most hours each week.</p><small>30 minutes, no cost</small></div>
+        <div class="step"><h3>Build</h3><p>We set up the first assistant with your documents, voice and tools, then test it with your staff.</p><small>Usually a few weeks</small></div>
+        <div class="step"><h3>Hand over</h3><p>Short training sessions, a simple guide, and ongoing support as your needs change.</p><small>You own your data and setup</small></div>
+      </div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section class="sec" id="principles">
+      <div class="sec-head">
+        <h2>Responsible by design.</h2>
+        <p class="lede">Nonprofits hold trust on behalf of vulnerable people. Our tools are built to protect it.</p>
+      </div>
+      <div class="principles">
+        <div class="pr"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><div><h3>Your data stays yours</h3><p>Client and donor information is never used to train public AI models. You can export or delete it any time.</p></div></div>
+        <div class="pr"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><div><h3>A person approves</h3><p>Grants, donor messages and reports are drafts until someone on your team signs off.</p></div></div>
+        <div class="pr"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg><div><h3>Plain language</h3><p>No jargon in the tools or the training. If your volunteers can't use it, it isn't finished.</p></div></div>
+        <div class="pr"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><div><h3>Priced for nonprofits</h3><p>Budgets are tight and we plan around that. Talk to us and we'll scope something that fits.</p></div></div>
+      </div>
+    </section>
+
+    <!-- JOIN / WAITLIST -->
+    <section class="sec" id="join">
+      <div class="join glass">
+        <div class="orb o4" aria-hidden="true"></div>
+        <div class="orb o5" aria-hidden="true"></div>
+        <div>
+          <h2>Become a founding partner.</h2>
+          <p class="lede">We're working closely with a small group of nonprofits to shape Nuboflo Labs. Join early access and we'll reach out to set up a call.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Priority setup and direct access to the founder</li>
+            <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Founding partner pricing</li>
+            <li><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>A say in which features we build next</li>
+          </ul>
+        </div>
+        <div class="form-card glass">
+          <form id="waitlist-form" data-kind="waitlist" novalidate>
+            <label for="wl-name">Your name<input id="wl-name" name="name" autocomplete="name" required></label>
+            <label for="wl-email">Work email<input id="wl-email" name="email" type="email" autocomplete="email" required></label>
+            <label for="wl-org">Organization<input id="wl-org" name="org" autocomplete="organization" required></label>
+            <label for="wl-need">Where would AI help most?
+              <select id="wl-need" name="need">
+                <option>Grant writing</option><option>Donor and volunteer outreach</option><option>Website chatbot</option><option>Impact reporting</option><option>Not sure yet</option>
+              </select>
+            </label>
+            <div class="hp" aria-hidden="true"><label for="wl-web">Website<input id="wl-web" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+            <button class="btn btn-ink" type="submit">Join early access</button>
+            <p class="status" role="status"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="sec" id="contact">
+      <div class="contact">
+        <div>
+          <h2>Talk to us.</h2>
+          <p class="lede" style="margin-top:18px">Tell us about your organization and what's eating your team's time. We reply within two business days.</p>
+          <div class="ways">
+            <a class="way glass" id="wa-inline" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
+              <div><strong>WhatsApp</strong><span>Message us directly</span></div>
+            </a>
+            <div class="way glass">
+              <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              <div><strong>Email</strong><span id="email-text">bot@nuboflo.si</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-card glass">
+          <form id="contact-form" data-kind="contact" novalidate>
+            <div class="field-row">
+              <label for="c-name">Your name<input id="c-name" name="name" autocomplete="name" required></label>
+              <label for="c-email">Email<input id="c-email" name="email" type="email" autocomplete="email" required></label>
+            </div>
+            <label for="c-org">Organization<input id="c-org" name="org" autocomplete="organization"></label>
+            <label for="c-msg">How can we help?<textarea id="c-msg" name="message" required placeholder="For example: we spend two days on every grant report and want to cut that down."></textarea></label>
+            <div class="hp" aria-hidden="true"><label for="c-web">Website<input id="c-web" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+            <button class="btn btn-ink" type="submit">Send message</button>
+            <p class="status" role="status"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec" id="faq">
+      <h2 style="margin-bottom:36px">Questions nonprofits ask us.</h2>
+      <div class="faq">
+        <details><summary>Is our data used to train AI models?<span class="pm" aria-hidden="true"></span></summary><p>No. Your client, donor and program data is used only to run your assistants. It isn't used to train public models, and you can export or delete it whenever you want.</p></details>
+        <details><summary>How much does it cost?<span class="pm" aria-hidden="true"></span></summary><p>It depends on which assistants you need and how your organization works. We price for nonprofit budgets, and founding partners get special pricing. Book a call and we'll give you a clear quote.</p></details>
+        <details><summary>Do we need technical staff?<span class="pm" aria-hidden="true"></span></summary><p>No. We handle setup and connections to the tools you already use, then train your team in plain language. If you can use email, you can use these assistants.</p></details>
+        <details><summary>Will AI replace our staff or volunteers?<span class="pm" aria-hidden="true"></span></summary><p>No. The assistants handle repetitive drafting and answering, and a person approves anything important. The goal is to give your people more time for the human work only they can do.</p></details>
+        <details><summary>Which tools does it work with?<span class="pm" aria-hidden="true"></span></summary><p>Common ones like Google Workspace, Microsoft 365, spreadsheets, donor databases and website builders. Tell us what you use on the discovery call and we'll confirm.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot">
+      <a class="brand" href="#top" aria-label="Nuboflo Labs home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="url(#lg)"/><ellipse cx="23" cy="20" rx="10" ry="6" fill="#fff" opacity=".9"/><path d="M20 42c4-10 20-10 24 0" fill="none" stroke="#141A2E" stroke-width="3.2" stroke-linecap="round"/></svg>
+        nuboflo <span>labs</span>
+      </a>
+      <span>AI for the people who help people.</span>
+      <span>&copy; <span id="yr">2026</span> Nuboflo Labs, nuboflo.si</span>
+    </div>
+  </footer>
+</div>
+
+<a class="wa glass" id="wa-float" href="#" target="_blank" rel="noopener" aria-label="Chat with Nuboflo Labs on WhatsApp">
+  <span class="wa-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3z"/></svg></span>
+  <span class="wa-label">Chat with us</span>
+</a>
+
+<script>
+/* ===== Settings: change these before uploading ===== */
+const SETTINGS = {
+  whatsappNumber: "15555550123",   // <-- REPLACE with your WhatsApp number: country code + number, digits only (e.g. 14165550123)
+  whatsappMessage: "Hi Nuboflo Labs, I'd like to learn more about AI for our nonprofit.",
+  formEndpoint: "https://formsubmit.co/ajax/bot@nuboflo.si",   // free form relay; first submission sends a one-time activation email to bot@nuboflo.si
+  contactEmail: "bot@nuboflo.si"
+};
+
+/* WhatsApp links */
+const waHref = "https://wa.me/" + SETTINGS.whatsappNumber + "?text=" + encodeURIComponent(SETTINGS.whatsappMessage);
+document.querySelectorAll("#wa-float,#wa-inline").forEach(a => a.href = waHref);
+document.getElementById("yr").textContent = new Date().getFullYear();
+
+/* ===== Live demo card ===== */
+const DEMOS = [
+  { org: "Sample: Maple Street Literacy Project",
+    ask: "Draft a needs statement for our after-school reading program. We served 120 kids last year and have 46 families on the waitlist.",
+    reply: "Every weekday afternoon, 120 children in our neighbourhood sit down with a trained volunteer and a book chosen just for them. Demand keeps growing: 46 families are waiting for a spot today.\n\nWith your support, we will open a second weekly session and bring every child on our waitlist into the program by spring." },
+  { org: "Sample: Northside Community Pantry",
+    ask: "Write a short thank-you to Priya, a first-time donor who gave $50 to our winter coat drive.",
+    reply: "Dear Priya,\n\nThank you for your gift to our winter coat drive. Because of you, a neighbour will walk to school or work this January warm and dry.\n\nWe're so glad you've joined us, and we'll share photos from distribution day soon.\n\nWith gratitude,\nThe Northside team" },
+  { org: "Sample: Harbour Light Shelter (website visitor)",
+    ask: "Hi, can I drop off donated blankets on Sunday?",
+    reply: "Yes, thank you! Donations are accepted Sunday from 12 to 4 pm at our side entrance on Harbour Street.\n\nWe can take new or gently used blankets, sleeping bags and winter socks. Would you like a tax receipt? I can collect your details or connect you with our team." },
+  { org: "Sample: Riverbend Youth Arts",
+    ask: "Summarize Q3 for our board in four bullet points.",
+    reply: "Q3 at a glance\n\n• 214 young people attended workshops, up from 168 in Q2\n• Two new partner schools joined the program\n• Spending tracked 3% under budget\n• Next step: hire a part-time coordinator before the winter term" }
+];
+
+const chat = document.getElementById("chat");
+const orgEl = document.getElementById("demo-org");
+const tabs = [...document.querySelectorAll(".tab")];
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let run = 0, current = 0, userPicked = false, cycleTimer;
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+async function playDemo(i){
+  const id = ++run;
+  clearTimeout(cycleTimer);
+  current = i;
+  tabs.forEach((t,k) => t.setAttribute("aria-selected", k === i ? "true" : "false"));
+  const d = DEMOS[i];
+  orgEl.textContent = d.org;
+  chat.innerHTML = "";
+
+  const you = document.createElement("div");
+  you.className = "msg you"; you.textContent = d.ask;
+  chat.appendChild(you);
+
+  const ai = document.createElement("div");
+  ai.className = "msg ai";
+  ai.innerHTML = '<span class="av" aria-hidden="true"></span><span class="txt"><span class="thinking"><b></b><b></b><b></b></span></span>';
+  chat.appendChild(ai);
+  const txt = ai.querySelector(".txt");
+
+  if (reduce){ txt.textContent = d.reply; return scheduleNext(id); }
+  await sleep(900);
+  if (id !== run) return;
+
+  txt.textContent = "";
+  const caret = document.createElement("span"); caret.className = "caret";
+  const node = document.createTextNode("");
+  txt.append(node, caret);
+  for (let c = 0; c < d.reply.length; c++){
+    if (id !== run) return;
+    node.data += d.reply[c];
+    const ch = d.reply[c];
+    await sleep(ch === "\n" ? 140 : /[.,!?]/.test(ch) ? 90 : 16);
+  }
+  caret.remove();
+  scheduleNext(id);
+}
+function scheduleNext(id){
+  if (userPicked) return;
+  cycleTimer = setTimeout(() => { if (id === run) playDemo((current + 1) % DEMOS.length); }, 4200);
+}
+tabs.forEach(t => t.addEventListener("click", () => { userPicked = true; playDemo(+t.dataset.i); }));
+tabs.forEach((t,k) => t.addEventListener("keydown", e => {
+  if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+  const n = (k + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+  tabs[n].focus(); userPicked = true; playDemo(n);
+}));
+playDemo(0);
+
+/* ===== Parallax: orbs and blobs follow the pointer ===== */
+if (!reduce && matchMedia("(pointer:fine)").matches){
+  const layers = [...document.querySelectorAll("[data-depth]")];
+  let tx = 0, ty = 0, x = 0, y = 0;
+  addEventListener("pointermove", e => { tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5; });
+  (function loop(){
+    x += (tx - x) * .06; y += (ty - y) * .06;
+    for (const el of layers){ const d = +el.dataset.depth; el.style.transform = `translate3d(${x*d}px,${y*d}px,0)`; }
+    requestAnimationFrame(loop);
+  })();
+}
+
+/* ===== Forms: waitlist + contact -> contact.php -> bot@nuboflo.si ===== */
+document.querySelectorAll("form[data-kind]").forEach(form => {
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const status = form.querySelector(".status");
+    const btn = form.querySelector("button[type=submit]");
+    status.className = "status"; status.textContent = "";
+
+    const missing = [...form.querySelectorAll("[required]")].find(f => !f.value.trim());
+    if (missing){ status.className = "status err"; status.textContent = "Please fill in " + missing.closest("label").firstChild.textContent.trim().toLowerCase() + "."; missing.focus(); return; }
+    const em = form.querySelector("input[type=email]");
+    if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())){ status.className = "status err"; status.textContent = "Please enter a valid email address."; em.focus(); return; }
+
+    const label = btn.textContent;
+    btn.disabled = true; btn.textContent = "Sending…";
+    const data = new FormData(form);
+    const isWait = form.dataset.kind === "waitlist";
+    data.append("Form", isWait ? "Early access waitlist" : "Contact form");
+    data.append("_subject", isWait ? "New early-access signup: " + (data.get("org") || "") : "New contact message from " + (data.get("name") || ""));
+    data.append("_template", "table");
+    data.append("_captcha", "false");
+    if (data.get("email")) data.append("_replyto", data.get("email"));
+    try{
+      const res = await fetch(SETTINGS.formEndpoint, { method:"POST", body:data, headers:{ "Accept":"application/json" } });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok || String(out.success) !== "true") throw new Error(out.message || "send failed");
+      form.reset();
+      status.className = "status ok";
+      status.textContent = form.dataset.kind === "waitlist" ? "You're on the list. We'll be in touch soon." : "Message sent. We'll reply within two business days.";
+    }catch(err){
+      status.className = "status err";
+      status.textContent = "Your message couldn't be sent. Please email us at " + SETTINGS.contactEmail + " or try again in a minute.";
+    }finally{
+      btn.disabled = false; btn.textContent = label;
+    }
+  });
+});
+</script>
+</body>
+</html>
